@@ -31,12 +31,13 @@ def plot_learning_history(fit, metric: str = "accuracy"):
     plt.close()
     return fig
 
+
 def plot_confusion_matrix(
     true: np.ndarray,
     pred: np.ndarray,
     labels: Optional[List[str]] = None,
     normalize: str = "true",
-    figsize: Sequence[int] = (5, 4)
+    figsize: Sequence[int] = (5, 4),
 ) -> np.ndarray:
     """Plot confusion matrix
     Args:

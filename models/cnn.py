@@ -13,6 +13,8 @@ from tensorflow.keras.layers import (
     Activation,
 )
 
+from models.metrics import ArcFace
+
 weight_decay = 1e-4
 
 
@@ -58,3 +60,28 @@ def vgg8():
     )(x)
 
     return Model(input, output)
+
+
+def vgg8_arcface():
+    input = Input(shape=(28, 28, 1))
+    y = Input(shape=(10,))
+
+    x = vgg_block(input, 16, 2)
+    x = MaxPooling2D(pool_size=(2, 2))(x)
+    x = vgg_block(x, 32, 2)
+    x = MaxPooling2D(pool_size=(2, 2))(x)
+    x = vgg_block(x, 64, 2)
+    x = MaxPooling2D(pool_size=(2, 2))(x)
+
+    x = BatchNormalization()(x)
+    x = Dropout(0.5)(x)
+    x = Flatten()(x)
+    x = Dense(
+        2,
+        kernel_initializer="he_normal",
+        kernel_regularizer=regularizers.l2(weight_decay),
+    )(x)
+    x = BatchNormalization()(x)
+    output = ArcFace(10, regularizer=regularizers.l2(weight_decay))([x, y])
+
+    return Model([input, y], output)
