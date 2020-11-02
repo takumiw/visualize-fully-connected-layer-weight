@@ -11,6 +11,8 @@ tensorflow-gpu = "2.3"
 matplotlib = "^3.3.2"
 seaborn = "^0.11.0"
 scikit-learn = "^0.23.2"
+pydotplus = "^2.0.2"
+graphviz = "^0.14.2"
 
 [tool.poetry.dev-dependencies]
 jupyter = "^1.0.0"
